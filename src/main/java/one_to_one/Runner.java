@@ -20,19 +20,30 @@ public class Runner {
         details1.setRedactor("Smith");
         details1.setCreationTimestamp(new Date());
         details1.setModificationTimestamp(new Date());
-Comment comment1 = new Comment();
-Comment comment2 = new Comment();
-comment1.setNickName("FB");
-comment2.setNickName("FB2");
-comment1.setComment("aaaaaaassasdaaa");
-comment2.setComment("coment 2");
+        Comment comment1 = new Comment();
+        comment1.setComment("Foo bar Foo bar Foo bar Foo bar Foo bar ");
+        comment1.setNickName("FB");
+
+        Comment comment2 = new Comment();
+        comment2.setComment("fiu fiu fiu fif");
+        comment2.setNickName("ohhh");
+
+        Board board1 = new Board();
+        board1.setBoardName("Fun");
+
+        Board board2 = new Board();
+        board2.setBoardName("Happy");
 //dodanie rekordu do nowej tablicy
         entityManager.getTransaction().begin();
         entityManager.persist(post1);
         entityManager.persist(details1);
+        entityManager.persist(board1);
+        entityManager.persist(board2);
         post1.setDetails(details1);
         post1.addComment(comment1);
         post1.addComment(comment2);
+        post1.addBoard(board1);
+        post1.addBoard(board2);
         entityManager.getTransaction().commit();
 //wyświetlenie z tablicy
         entityManager.getTransaction().begin();
@@ -40,6 +51,7 @@ comment2.setComment("coment 2");
         System.out.println(post);
         System.out.println(post.getDetails());
         post.getComments().forEach(System.out::println);
+        post.getBoards().forEach(System.out::println);
         entityManager.getTransaction().commit();
 
         entityManager.close();

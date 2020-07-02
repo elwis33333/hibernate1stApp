@@ -19,13 +19,16 @@ public class Post {
     private int id;
     private String title;
     private String content;
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "post_id")
-    private List<Comment> comments = new LinkedList<>();
 
     @OneToOne(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
     private PostDetails details;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "post_id")
+    private List<Comment> comments = new LinkedList<>();
+
+    @ManyToMany(mappedBy = "posts")
+    private List<Board> boards = new LinkedList<>();
 
     public void setDetails(PostDetails details) {
         if (details == null) {
@@ -49,5 +52,9 @@ public class Post {
 
     public void addComment(Comment comment) {
         comments.add(comment);
+    }
+    public void addBoard(Board board) {
+        boards.add(board);
+        board.addPost(this);
     }
 }
